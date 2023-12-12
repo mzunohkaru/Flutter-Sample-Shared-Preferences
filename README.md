@@ -4,3 +4,5 @@
 ・Bool
 ・List
 ・DateTime
+・Image
+・ImageList

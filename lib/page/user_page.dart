@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_sample/page/image_page.dart';
 import 'package:shared_sample/utils/user_simple_preferences.dart';
 import 'package:shared_sample/widget/button_widget.dart';
 import 'package:shared_sample/widget/pets_buttons_widget.dart';
@@ -73,6 +74,13 @@ class _UserPageState extends State<UserPage> {
               const SizedBox(height: 12),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ImagePage()));
+          },
+          child: const Icon(Icons.arrow_circle_right_outlined),
         ),
       );
 

@@ -8,6 +8,7 @@ class UserSimplePreferences {
   static const _keyPets = 'pets';
   static const _keyBirthday = 'birthday';
   static const _keyImage = 'image';
+  static const _keyImageList = 'imageList';
 
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
@@ -48,4 +49,10 @@ class UserSimplePreferences {
       await _preferences.setString(_keyImage, path);
 
   static String? getImage() => _preferences.getString(_keyImage);
+
+  // Image List Date
+  static Future saveImageList(List<String> path) async =>
+      await _preferences.setStringList(_keyImageList, path);
+
+  static List<String>? getImageList() => _preferences.getStringList(_keyImageList);
 }
