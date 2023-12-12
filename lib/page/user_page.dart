@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_sample/utils/user_simple_preferences.dart';
 import 'package:shared_sample/widget/button_widget.dart';
@@ -25,6 +28,7 @@ class _UserPageState extends State<UserPage> {
   late bool isOn;
   List<String> pets = [];
   late DateTime setDate;
+  File? imageFile;
 
   @override
   void initState() {
@@ -37,6 +41,10 @@ class _UserPageState extends State<UserPage> {
     isOn = UserSimplePreferences.getSwitch() ?? true;
     pets = UserSimplePreferences.getPets() ?? [];
     setDate = UserSimplePreferences.getBirthday() ?? DateTime.now();
+    if (UserSimplePreferences.getImage() != null) {
+      String? imagePath = UserSimplePreferences.getImage();
+      imageFile = File(imagePath!);
+    }
   }
 
   @override
@@ -58,6 +66,8 @@ class _UserPageState extends State<UserPage> {
               buildPets(),
               const SizedBox(height: 12),
               buildDateTimeButton(),
+              const SizedBox(height: 12),
+              buildImage(),
               const SizedBox(height: 32),
               buildButton(),
               const SizedBox(height: 12),
@@ -118,13 +128,29 @@ class _UserPageState extends State<UserPage> {
         ),
       );
 
+  Widget buildImage() => buildTitle(
+        title: '画像保存',
+        child: IconButton(
+          onPressed: getImage,
+          icon: imageFile != null
+              ? Image.file(imageFile!)
+              : const Icon(
+                  Icons.image,
+                  size: 80,
+                ),
+        ),
+      );
+
   Widget buildButton() => ButtonWidget(
       text: 'Save',
       onClicked: () async {
-        await UserSimplePreferences.setUsername(name);
-        await UserSimplePreferences.setSwitch(isOn);
-        await UserSimplePreferences.setPets(pets);
-        await UserSimplePreferences.setBirthday(setDate);
+        await UserSimplePreferences.saveUsername(name);
+        await UserSimplePreferences.saveSwitch(isOn);
+        await UserSimplePreferences.savePets(pets);
+        await UserSimplePreferences.saveBirthday(setDate);
+        if (imageFile != null) {
+          await UserSimplePreferences.saveImage(imageFile!.path);
+        }
       });
 
   Widget buildTitle({
@@ -142,4 +168,13 @@ class _UserPageState extends State<UserPage> {
           child,
         ],
       );
+
+  Future getImage() async {
+    final ImagePicker picker = ImagePicker();
+    final pickerFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickerFile != null) {
+      imageFile = File(pickerFile.path);
+      setState(() {});
+    }
+  }
 }

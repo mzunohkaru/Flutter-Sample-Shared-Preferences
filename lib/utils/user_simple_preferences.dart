@@ -7,30 +7,31 @@ class UserSimplePreferences {
   static const _keySwitch = 'switch';
   static const _keyPets = 'pets';
   static const _keyBirthday = 'birthday';
+  static const _keyImage = 'image';
 
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
 
   // String Date
-  static Future setUsername(String username) async =>
+  static Future saveUsername(String username) async =>
       await _preferences.setString(_keyUsername, username);
 
   static String? getUsername() => _preferences.getString(_keyUsername);
 
   // Bool Date
-  static Future setSwitch(bool value) async =>
+  static Future saveSwitch(bool value) async =>
       await _preferences.setBool(_keySwitch, value);
 
   static bool? getSwitch() => _preferences.getBool(_keySwitch);
 
   // List Date
-  static Future setPets(List<String> pets) async =>
+  static Future savePets(List<String> pets) async =>
       await _preferences.setStringList(_keyPets, pets);
 
   static List<String>? getPets() => _preferences.getStringList(_keyPets);
 
   // DateTime Date
-  static Future setBirthday(DateTime dateOfBirth) async {
+  static Future saveBirthday(DateTime dateOfBirth) async {
     final birthday = dateOfBirth.toIso8601String();
 
     return await _preferences.setString(_keyBirthday, birthday);
@@ -41,4 +42,10 @@ class UserSimplePreferences {
 
     return birthday == null ? null : DateTime.tryParse(birthday);
   }
+
+  // String Image File
+  static Future saveImage(String path) async =>
+      await _preferences.setString(_keyImage, path);
+
+  static String? getImage() => _preferences.getString(_keyImage);
 }

@@ -19,6 +19,11 @@ dependencies:
 
 
   shared_preferences:
+  
+
+  image_picker:
+
+  path_provider:
 
   intl:
 
