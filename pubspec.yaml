@@ -11,15 +11,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
-
-
-
-
-
-
-
   shared_preferences:
-  
 
   image_picker:
 
@@ -28,15 +20,6 @@ dependencies:
   intl:
 
   flutter_datetime_picker_plus:
-
-
-
-
-
-
-
-
-
 
 
 dev_dependencies:
